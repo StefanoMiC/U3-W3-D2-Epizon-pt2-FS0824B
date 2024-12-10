@@ -14,7 +14,7 @@ const App = () => (
         <Route path="/" element={<BookStore />} />
         <Route path="/cart" element={<Cart />} />
       </Routes>
-      <Footer />
+      <Footer defaultProp="Epicode" />
     </Container>
   </BrowserRouter>
 );

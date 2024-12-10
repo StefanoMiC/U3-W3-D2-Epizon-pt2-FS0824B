@@ -1,5 +1,6 @@
 import { Col, Row, Button, Alert } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { addToCartActionWithThunk } from "../redux/actions";
 
 const BookDetail = () =>
   // { bookSelected }
@@ -41,7 +42,9 @@ const BookDetail = () =>
                       // mentre il suo argomento è un oggetto chiamato ACTION
                       // che deve SEMPRE avere un type, e opzionalmente un payload con il dato da inviare al reducer
                       // che verrà poi elaborato internamente per inserirsi nello Store
-                      dispatch({ type: "ADD_TO_CART", payload: bookSelected });
+                      // dispatch({ type: ADD_TO_CART, payload: bookSelected });
+                      // dispatch(addToCartAction(bookSelected)); // dispatch({ type: ADD_TO_CART, payload: bookSelected });
+                      dispatch(addToCartActionWithThunk(bookSelected));
                     }}
                   >
                     ADD TO CART

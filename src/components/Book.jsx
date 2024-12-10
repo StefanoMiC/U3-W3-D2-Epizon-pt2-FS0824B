@@ -1,5 +1,6 @@
 import { Card } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
+import { selectBookAction } from "../redux/actions";
 
 const Book = ({
   book
@@ -13,7 +14,8 @@ const Book = ({
       className={bookSelected?.id === book.id ? "border-2 border-primary mt-3" : "border-2 mt-3"}
       onClick={() => {
         // changeBook(book)
-        dispatch({ type: "SELECT_BOOK", payload: book });
+        // dispatch({ type: SELECT_BOOK, payload: book });
+        dispatch(selectBookAction(book));
       }}
       style={{ cursor: "pointer" }}
     >

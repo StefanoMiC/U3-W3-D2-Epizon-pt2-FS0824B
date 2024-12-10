@@ -2,6 +2,18 @@
 // un reducer dev'essere una funzione PURA, che prenderà lo STATO CORRENTE nel momento della "dispatch" e l'action inviata
 // grazie a queste due informazioni computerà SEMPRE un NUOVO STATO (senza ambiguità)
 
+import {
+  ADD_TO_CART,
+  REMOVE_FROM_CART,
+  SELECT_BOOK,
+  SET_BOOKS,
+  SET_BOOKS_ERROR_OFF,
+  SET_BOOKS_ERROR_ON,
+  SET_BOOKS_LOADING_OFF,
+  SET_BOOKS_LOADING_ON,
+  SET_USER
+} from "../actions";
+
 // OGNI VOLTA che verrà "risvegliato" (ad ogni dispatch) avrà bisogno di leggere dalla nostra action il suo TYPE (per questo il type è obbligatorio)
 // in più opzionalmente ci potrebbe essere anche un payload da dover leggere
 
@@ -15,10 +27,17 @@ const initialState = {
   cart: {
     // qui ci portebbero essere altre proprietà di stato, vale la pena darci la possibilità di metterle in futuro
     createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
     content: [] // questo rappresenta il contenuto, ora vuoto, del carrello. acquisirà oggetti di libro.
   },
   user: {
     content: ""
+  },
+  books: {
+    isLoading: false,
+    hasError: false,
+    errorMessage: "",
+    content: []
   }
 };
 
@@ -41,19 +60,20 @@ const mainReducer = (state = initialState, action) => {
   //   console.log("state", state);
 
   switch (action.type) {
-    case "ADD_TO_CART":
+    case ADD_TO_CART:
       //   console.log("ACTION", action);
       return {
         ...state,
         cart: {
           ...state.cart,
+          updatedAt: new Date().toISOString(),
           // content: state.cart.content.push()  // ❌ VIETATO USARE METODI CHE MUTANO L'ARRAY DI PARTENZA!
           // content: state.cart.content.concat(action.payload) // ✅l'operazione di .concat() restituisce un nuovo array senza mutare l'originale
           content: [...state.cart.content, action.payload] // ✅l'operazione tramite spread operator non va a mutare l'array originario, quindi è permessa
         }
       };
 
-    case "REMOVE_FROM_CART":
+    case REMOVE_FROM_CART:
       return {
         ...state,
         cart: {
@@ -66,7 +86,7 @@ const mainReducer = (state = initialState, action) => {
         }
       };
 
-    case "SELECT_BOOK":
+    case SELECT_BOOK:
       return {
         ...state,
         bookSelected: {
@@ -75,7 +95,7 @@ const mainReducer = (state = initialState, action) => {
         }
       };
 
-    case "SET_USER":
+    case SET_USER:
       return {
         ...state,
         user: {
@@ -83,6 +103,54 @@ const mainReducer = (state = initialState, action) => {
           content: action.payload
         }
       };
+
+    case SET_BOOKS:
+      return {
+        ...state,
+        books: {
+          ...state.books,
+          content: action.payload
+        }
+      };
+
+    case SET_BOOKS_LOADING_ON:
+      return {
+        ...state,
+        books: {
+          ...state.books,
+          isLoading: true
+        }
+      };
+
+    case SET_BOOKS_LOADING_OFF:
+      return {
+        ...state,
+        books: {
+          ...state.books,
+          isLoading: false
+        }
+      };
+
+    case SET_BOOKS_ERROR_ON:
+      return {
+        ...state,
+        books: {
+          ...state.books,
+          hasError: true,
+          errorMessage: action.payload
+        }
+      };
+
+    case SET_BOOKS_ERROR_OFF:
+      return {
+        ...state,
+        books: {
+          ...state.books,
+          hasError: false,
+          errorMessage: ""
+        }
+      };
+
     default:
       return state;
   }

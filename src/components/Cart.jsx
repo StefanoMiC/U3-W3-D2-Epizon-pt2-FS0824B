@@ -1,6 +1,7 @@
 import { Col, Row, Button, ListGroup } from "react-bootstrap";
 import { FaShoppingCart, FaTrash } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { removeFromCartAction } from "../redux/actions";
 
 const Cart = () => {
   const cart = useSelector(state => state.cart.content);
@@ -20,7 +21,8 @@ const Cart = () => {
                 <Button
                   variant="danger"
                   onClick={() => {
-                    dispatch({ type: "REMOVE_FROM_CART", payload: i });
+                    // dispatch({ type: REMOVE_FROM_CART, payload: i });
+                    dispatch(removeFromCartAction(i));
                   }}
                 >
                   <FaTrash />
